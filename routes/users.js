@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+// We bring the default.json file by requiring config
+const config = require("config");
 // Using a validator from express to make sure people send the right data (npm installed)
 const { check, validationResult } = require("express-validator");
 
@@ -48,7 +51,25 @@ router.post(
       // Finally, we store the user in the database
       await user.save();
 
-      res.send("User saved");
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+
+      // JWT generated based on string we created at default.json
+      // We imported config at the beginning of the file and we get now the sign from "jwtSecret"
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        {
+          expiresIn: 360000,
+        },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");
