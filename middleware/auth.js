@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
+// const router = require("../routes/users");
 
 // Middleware function to grab jwt and decode it
 // We declare the function here and basically import it in whevener file we need it (it is used to protect routes)
-module.exports = function (req, res, next) {
+const auth = (req, res, next) => {
   // Checking to see if there is a token in the header
   // Get token from header
   const token = req.header("x-auth-token");
@@ -23,3 +24,5 @@ module.exports = function (req, res, next) {
     res.status(401).json({ msg: "Token is not valid" });
   }
 };
+
+module.exports = auth;

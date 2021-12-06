@@ -56,7 +56,7 @@ router.post(
           id: user.id,
         },
       };
-
+      console.log(payload);
       // JWT generated based on string we created at default.json
       // We imported config at the beginning of the file and we get now the sign from "jwtSecret"
       jwt.sign(

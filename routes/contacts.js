@@ -5,6 +5,7 @@ const auth = require("../middleware/auth");
 
 const User = require("../models/User");
 const Contact = require("../models/Contact");
+// const user = require("../routes/users");
 
 // This route allows us to get all contacts from an user
 // @route   GET api/contacts
@@ -12,6 +13,7 @@ const Contact = require("../models/Contact");
 // @access  Private
 router.get("/", auth, async (req, res) => {
   try {
+    // console.log(req);
     // We get the contact info once it has been verified by middleware and we then sort it by closest date
     const contacts = await Contact.find({ user: req.user.id }).sort({
       date: -1,
@@ -59,8 +61,36 @@ router.post(
 // @route   PUT api/contacts/:id
 // desc     Update contact
 // @access  Private
-router.put("/:id", (req, res) => {
-  res.send("Update contact");
+router.put("/:id", auth, async (req, res) => {
+  const { name, email, phone, type } = req.body;
+  console.log(req.params.id);
+
+  // Build contact object
+  const contactFields = {};
+  if (name) contactFields.name = name;
+  if (email) contactFields.email = email;
+  if (phone) contactFields.phone = phone;
+  if (type) contactFields.type = type;
+
+  try {
+    let contact = await Contact.findById(req.params.id);
+    if (!contact) return res.status(404).json({ msg: "Contact not found" });
+
+    // Make sure user owns contact
+    if (contact.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Not authorized" });
+    }
+
+    contact = await Contact.findByIdAndUpdate(
+      req.params.id,
+      { $set: contactFields },
+      { new: true }
+    );
+    res.json(contact);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
 });
 
 // @route   DELETE api/contacts/:id
