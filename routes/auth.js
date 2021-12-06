@@ -3,14 +3,24 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const auth = require("../middleware/auth");
 const { check, validationResult } = require("express-validator");
 const User = require("../models/User");
 
 // @route   GET api/auth
 // desc     Get logged in user
 // @access  Private
-router.get("/", (req, res) => {
-  res.send("Get logged in user");
+// To protect the route, we just pass "auth" as second parameter
+router.get("/", auth, async (req, res) => {
+  try {
+    // Because we included "auth" as second parameter, we can access the id from "req.user.id"
+    const user = await User.findById(req.user.id).select("-password");
+    // The server sends back the user in json format
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
 });
 
 // This is where we validate the login info that user sends
