@@ -1,5 +1,5 @@
 import ContactContext from "../../context/contact/ContactContext";
-// importing transitions from react to make easily a couple of transitions
+// importing transitions from react to style adding/deleting/filtering contacts
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Fragment, useContext } from "react";
 import ContactItem from "./ContactItem";
