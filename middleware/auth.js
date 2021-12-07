@@ -1,6 +1,5 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
-// const router = require("../routes/users");
 
 // Middleware function to grab jwt and decode it
 // We declare the function here and basically import it in whevener file we need it (it is used to protect routes)
