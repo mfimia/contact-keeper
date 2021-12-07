@@ -1,4 +1,6 @@
 import ContactContext from "../../context/contact/ContactContext";
+// importing transitions from react to make easily a couple of transitions
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Fragment, useContext } from "react";
 import ContactItem from "./ContactItem";
 
@@ -15,15 +17,23 @@ const Contacts = () => {
 
   return (
     <Fragment>
-      {/* If filtered has a value, then we map the contacts based on the filtered list. 
+      {/* We wrap the whole thing with the Transition group tag */}
+      <TransitionGroup>
+        {/* If filtered has a value, then we map the contacts based on the filtered list. 
       If filtered has no  value, we just map the contacts through the normal contact list */}
-      {filtered
-        ? filtered.map((contact) => (
-            <ContactItem key={contact.id} contact={contact} />
-          ))
-        : contacts.map((contact) => (
-            <ContactItem contact={contact} key={contact.id} />
-          ))}
+        {filtered
+          ? filtered.map((contact) => (
+              // We wrap the element in CSS transition. The key needs to go in the outer element of the map function
+              <CSSTransition key={contact.id} timeout={500} classNames="item">
+                <ContactItem contact={contact} />
+              </CSSTransition>
+            ))
+          : contacts.map((contact) => (
+              <CSSTransition key={contact.id} timeout={500} classNames="item">
+                <ContactItem contact={contact} key={contact.id} />
+              </CSSTransition>
+            ))}
+      </TransitionGroup>
     </Fragment>
   );
 };
