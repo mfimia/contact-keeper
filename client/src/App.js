@@ -3,6 +3,7 @@ import Navbar from "./components/layout/Navbar";
 import Home from "./components/pages/Home";
 import About from "./components/pages/About";
 import Register from "./components/auth/Register";
+import Login from "./components/auth/Login";
 import { Fragment } from "react";
 
 import ContactState from "./context/contact/ContactState";
@@ -21,6 +22,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
               </Routes>
             </div>
           </Fragment>
