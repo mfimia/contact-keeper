@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import axios from "axios";
 import AuthContext from "./AuthContext";
 import AuthReducer from "./AuthReducer";
 import {
@@ -24,14 +25,46 @@ const AuthState = (props) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
   // Load User
+  const loadUser = () => console.log("loadUser");
 
   // Register User
+  const register = async (FormData) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/users",
+        FormData,
+        config
+      );
+
+      dispatch({
+        type: REGISTER_SUCCESS,
+        // If registration is successful. We will receive a token in the payload
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: REGISTER_FAIL,
+        // The error will come from the server. It will tell us if email is already in use, it is a bad request, or
+        // anything like that
+        payload: err.response.data.msg,
+      });
+    }
+  };
 
   // Login User
+  const login = () => console.log("login");
 
   // Logout
+  const logout = () => console.log("logout");
 
   // Clear Errors
+  const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
   return (
     <AuthContext.Provider
@@ -41,6 +74,11 @@ const AuthState = (props) => {
         loading: state.loading,
         user: state.user,
         error: state.error,
+        register,
+        loadUser,
+        login,
+        logout,
+        clearErrors,
       }}
     >
       {props.children}
