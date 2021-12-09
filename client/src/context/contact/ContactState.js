@@ -51,9 +51,15 @@ const ContactState = (props) => {
     // When the response comes back, we use it to set the contact data (res.data)
     try {
       const res = await axios.post("api/contacts", contact, config);
-      dispatch({ type: ADD_CONTACT, payload: res.data });
+      dispatch({
+        type: ADD_CONTACT,
+        payload: res.data,
+      });
     } catch (err) {
-      dispatch({ type: CONTACT_ERROR, payload: err.response.msg });
+      dispatch({
+        type: CONTACT_ERROR,
+        payload: err.response.msg,
+      });
     }
   };
 
@@ -69,6 +75,7 @@ const ContactState = (props) => {
     try {
       const res = await axios.put(
         `api/contacts/${contact._id}`,
+
         contact,
         config
       );
