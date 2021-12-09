@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Home from "./components/pages/Home";
@@ -5,7 +6,7 @@ import About from "./components/pages/About";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Alerts from "./components/layout/Alerts";
-import { Fragment } from "react";
+import PrivateRoute from "./components/routing/PrivateRoute";
 
 import ContactState from "./context/contact/ContactState";
 import AuthState from "./context/auth/AuthState";
@@ -28,7 +29,14 @@ const App = () => {
               <div className="container">
                 <Alerts />
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  {/* This route uses a private route. The private route will send the user to login by default
+                  and only send to Home component if the conditions are met */}
+                  <Route
+                    path="/"
+                    element={
+                      <PrivateRoute redirect="/login" element={<Home />} />
+                    }
+                  />
                   <Route path="/about" element={<About />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/login" element={<Login />} />
