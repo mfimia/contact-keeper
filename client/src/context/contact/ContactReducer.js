@@ -23,13 +23,15 @@ export default (state, action) => {
     case ADD_CONTACT:
       return {
         ...state,
-        contacts: [...state.contacts, action.payload],
+        // We add it to the beginning of our database
+        contacts: [action.payload, ...state.contacts],
         loading: false,
       };
     case UPDATE_CONTACT:
       return {
         ...state,
         contacts: state.contacts.map((contact) =>
+          // We map our contacts and filter by id. The selected one gets new info dynamically
           contact.id === action.payload.id ? action.payload : contact
         ),
         loading: false,
@@ -38,7 +40,7 @@ export default (state, action) => {
       return {
         ...state,
         contacts: state.contacts.filter(
-          (contact) => contact.id !== action.payload
+          (contact) => contact._id !== action.payload
         ),
         loading: false,
       };
