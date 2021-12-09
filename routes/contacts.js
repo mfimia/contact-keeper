@@ -25,7 +25,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// This route will allow to add users
+// This route will allow to add contacts to user
 // We add more than one middleware by including them as part of an array in second parameter
 // @route   POST api/contacts
 // desc     Add new contact

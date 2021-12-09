@@ -21,6 +21,7 @@ app.use((req, res, next) => {
 });
 
 // Connect Database
+// If we want to connect to a specific database folder, we need to set this up here
 connectDB();
 
 // Init Middleware

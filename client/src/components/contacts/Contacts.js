@@ -24,13 +24,13 @@ const Contacts = () => {
         {filtered
           ? filtered.map((contact) => (
               // We wrap the element in CSS transition. The key needs to go in the outer element of the map function
-              <CSSTransition key={contact.id} timeout={500} classNames="item">
+              <CSSTransition key={contact._id} timeout={500} classNames="item">
                 <ContactItem contact={contact} />
               </CSSTransition>
             ))
           : contacts.map((contact) => (
-              <CSSTransition key={contact.id} timeout={500} classNames="item">
-                <ContactItem contact={contact} key={contact.id} />
+              <CSSTransition key={contact._id} timeout={500} classNames="item">
+                <ContactItem contact={contact} />
               </CSSTransition>
             ))}
       </TransitionGroup>
