@@ -1,5 +1,6 @@
 const express = require("express");
 const connectDB = require("./config/db");
+const path = require("path");
 
 const app = express();
 
@@ -21,14 +22,26 @@ connectDB();
 // Init Middleware
 app.use(express.json({ extended: false }));
 
-app.get("/", (req, res) =>
-  res.json({ msg: "Welcome to the ContactKeeper API" })
-);
+// app.get("/", (req, res) =>
+//   res.json({ msg: "Welcome to the ContactKeeper API" })
+// );
 
 // Define Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/contacts", require("./routes/contacts"));
+
+// Serve static assets (React) in production
+// It checks if the environment is in production
+if (process.env.NODE_ENV === "production") {
+  // If it's in production, it loads the build folder
+  app.use(express.static("client/build"));
+
+  // If this route is hit, it will load the index.html in the client/build/ folder
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
+}
 
 const PORT = process.env.PORT || 5000;
 
