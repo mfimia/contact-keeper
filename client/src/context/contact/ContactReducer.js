@@ -32,7 +32,7 @@ export default (state, action) => {
         ...state,
         contacts: state.contacts.map((contact) =>
           // We map our contacts and filter by id. The selected one gets new info dynamically
-          contact.id === action.payload.id ? action.payload : contact
+          contact._id === action.payload._id ? action.payload : contact
         ),
         loading: false,
       };
