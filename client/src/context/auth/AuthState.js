@@ -41,7 +41,7 @@ const AuthState = (props) => {
   };
 
   // Register User
-  const register = async (FormData) => {
+  const register = async (formData) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const AuthState = (props) => {
     try {
       const res = await axios.post(
         "http://localhost:5000/api/users",
-        FormData,
+        formData,
         config
       );
 
@@ -73,7 +73,38 @@ const AuthState = (props) => {
   };
 
   // Login User
-  const login = () => console.log("login");
+  const login = async (formData) => {
+    // These are the headers of the request
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    // We send a request to the server and wait for the response
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/auth",
+        formData,
+        config
+      );
+      // Once the response is there, we execute the action in our state
+      dispatch({
+        type: LOGIN_SUCCESS,
+        // If login is successful. We will receive a token in the payload
+        // We send it to the dispatcher and it will handle it
+        payload: res.data,
+      });
+
+      loadUser();
+    } catch (err) {
+      dispatch({
+        type: LOGIN_FAIL,
+        // The error will come from the server. It will tell us if email is already in use, it is a bad request, or
+        // anything like that
+        payload: err.response.data.msg,
+      });
+    }
+  };
 
   // Logout
   const logout = () => console.log("logout");

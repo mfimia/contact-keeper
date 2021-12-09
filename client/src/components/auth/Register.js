@@ -3,7 +3,7 @@ import AlertContext from "../../context/alert/AlertContext";
 import AuthContext from "../../context/auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-const Register = (props) => {
+const Register = () => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
   // To navigate the user automatically to other pages, we need to import this hook from react-router-dom
@@ -24,7 +24,7 @@ const Register = (props) => {
       clearErrors();
     }
     // eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  }, [error, isAuthenticated]);
 
   const [user, setUser] = useState({
     name: "",

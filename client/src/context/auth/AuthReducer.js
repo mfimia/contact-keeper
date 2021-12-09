@@ -18,7 +18,10 @@ export default (state, action) => {
         loading: false,
         user: action.payload,
       };
+    // They return a token. We take the token, put it in localStorage and add everything to our state
     case REGISTER_SUCCESS:
+    case LOGIN_SUCCESS:
+      // Token info will come as payload from backend
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
@@ -26,8 +29,10 @@ export default (state, action) => {
         isAuthenticated: true,
         loading: false,
       };
+    // If registration/login fail, we remove the token and remove everything from state
     case REGISTER_FAIL:
     case AUTH_ERROR:
+    case LOGIN_FAIL:
       localStorage.removeItem("token");
       return {
         ...state,
@@ -35,6 +40,7 @@ export default (state, action) => {
         isAuthenticated: null,
         loading: null,
         user: null,
+        // We send whatever error comes from the server to our frontend
         error: action.payload,
       };
     case CLEAR_ERRORS:
