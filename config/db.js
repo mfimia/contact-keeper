@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
-// We get the user URI from the JSON file created. It states our database user
-const config = require("config");
-const db = config.get("mongoURI");
+// We get the user URI from environment variables
+const dotenv = require("dotenv");
 
-//
+dotenv.config();
+
 const connectDB = async () => {
   try {
-    await mongoose.connect(db, {
+    await mongoose.connect(process.env.MONGO_URI, {
       // This is just a defined setting to avoid console errors
       useNewUrlParser: true,
     });
