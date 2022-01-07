@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
-const config = require("config");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 // Middleware function to grab jwt and decode it
 // We declare the function here and basically import it in whevener file we need it (it is used to protect routes)
@@ -14,7 +16,7 @@ const auth = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, config.get("jwtSecret"));
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     // If there is a payload, we send it to user so we can access it from our routes
     req.user = decoded.user;
     // If everything is ok, we continue
