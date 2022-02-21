@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://mfimia:aT..Su8yi9AXWKz@mfimia.seces.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-  "jwtSecret": "secret"
-}
